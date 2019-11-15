@@ -1,0 +1,14 @@
+{
+    "title": "Home",
+    "stylesheets": [
+        {
+            "href": "/assets/css/style.css",
+            "media": "all"
+        }
+    ],
+    "head_scripts": [
+        {
+            "src": "/head/section/from/local"
+        }
+    ]
+}

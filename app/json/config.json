@@ -1,0 +1,7 @@
+{
+    "environment": "development",
+    "htaccess": "app/conf/development.http.htaccess",
+    "php_errors_log": "app/log/php_errors.log",
+    "encoding": "utf-8",
+    "timezone": "America/Los_Angeles"
+}

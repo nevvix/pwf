@@ -1,0 +1,72 @@
+<IfModule mod_dir.c>
+    DirectoryIndex index.html index.php
+</IfModule>
+
+<IfModule mod_autoindex.c>
+    Options -Indexes
+</IfModule>
+
+<IfModule mod_rewrite.c>
+    Options +FollowSymLinks
+
+    RewriteEngine On
+    RewriteBase /
+
+    # PHP Web Framework
+    RewriteEngine On
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteCond %{REQUEST_FILENAME} -f
+    RewriteCond %{REQUEST_FILENAME} \.php$
+    RewriteCond %{REQUEST_FILENAME} !index\.(html|php)$
+    RewriteCond %{REQUEST_FILENAME} !\.js\.php?$
+    RewriteRule ^(.*)$ - [F,NC,L]
+
+    # 403 Forbidden for hidden files
+    RewriteEngine On
+    RewriteCond %{REQUEST_URI} "!(^|/)\.well-known/([^./]+./?)+$" [NC]
+    RewriteCond %{SCRIPT_FILENAME} -d [OR]
+    RewriteCond %{SCRIPT_FILENAME} -f
+    RewriteRule "(^|/)\." - [F]
+</IfModule>
+
+# Error pages
+ErrorDocument 403 /404/
+ErrorDocument 404 /404/
+
+# Security settings
+<IfModule mod_headers.c>
+    Header set X-UA-Compatible "IE=edge,chrome=1"
+    <FilesMatch "\.(appcache|atom|bbaw|bmp|crx|css|cur|eot|f4[abpv]|flv|geojson|gif|htc|ico|jpe?g|js|json(ld)?|m4[av]|manifest|map|mp4|oex|og[agv]|opus|otf|pdf|png|rdf|rss|safariextz|svgz?|swf|topojson|tt[cf]|txt|vcard|vcf|vtt|webapp|web[mp]|webmanifest|woff2?|xloc|xml|xpi)$">
+        Header unset X-UA-Compatible
+    </FilesMatch>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-XSS-Protection "1; mode=block"
+    <FilesMatch "\.(appcache|atom|bbaw|bmp|crx|css|cur|eot|f4[abpv]|flv|geojson|gif|htc|ico|jpe?g|js|json(ld)?|m4[av]|manifest|map|mp4|oex|og[agv]|opus|otf|pdf|png|rdf|rss|safariextz|svgz?|swf|topojson|tt[cf]|txt|vcard|vcf|vtt|webapp|web[mp]|webmanifest|woff2?|xloc|xml|xpi)$">
+        Header unset X-XSS-Protection
+    </FilesMatch>
+    Header unset X-Powered-By
+    Header merge Cache-Control "no-transform"
+</IfModule>
+
+# Production environment PHP error settings
+php_flag display_startup_errors off
+php_flag display_errors off
+php_flag html_errors off
+php_flag ignore_repeated_errors off
+php_flag ignore_repeated_source off
+php_flag report_memleaks on
+php_flag track_errors on
+php_value docref_root 0
+php_value docref_ext 0
+php_flag log_errors on
+php_value log_errors_max_len 2048
+# https://www.php.net/manual/en/errorfunc.configuration.php#ini.error-log
+php_value error_log "./app/log/php_errors.log"
+# E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT
+php_value error_reporting 22519
+
+# Application PHP settings
+php_flag short_open_tag On
+php_value upload_max_filesize 512M
+php_value post_max_size 512M
+php_value memory_limit 512M

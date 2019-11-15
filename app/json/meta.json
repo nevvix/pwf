@@ -1,0 +1,23 @@
+{
+    "charset": "utf-8",
+    "lang": "en",
+    "rights": "Copyright (c) 2019 Nevvix Technology Inc.",
+    "sitename": "Nevvix PHP Web Framework",
+    "title": "Nevvix PHP Web Framework",
+    "robots": {
+        "production": "index,follow",
+        "development": "noindex,nofollow"
+    },
+    "shortcut_icon": "/favicon.ico",
+    "stylesheets": [
+        {
+            "href": "/assets/css/style.css",
+            "media": "all"
+        }
+    ],
+    "body_scripts": [
+        {
+            "src": "/assets/js/init.js"
+        }
+    ]
+}
