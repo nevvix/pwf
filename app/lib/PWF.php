@@ -1,4 +1,9 @@
 <?php
+if (!defined('APP')) {
+    define('APP', dirname(__DIR__));
+}
+require_once __DIR__.'/functions.php';
+require_once __DIR__.'/JSON.php';
 
 class PWF {
 
@@ -81,6 +86,9 @@ class PWF {
 
     /**
      * Merge $config with meta.json files.
+     *
+     * @param stdClass $config
+     * @return stdClass
      */
     static public function merge_meta($config) {
         $json = JSON::merge(APP.'/json/meta.json', DIR.'/.meta.json');

@@ -5,3 +5,4 @@ composer.phar
 /vendor/
 !/vendor/php-markdown/
 .env
+.phpunit.result.cache
