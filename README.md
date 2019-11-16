@@ -70,12 +70,12 @@ At the project root, there are two directories:
 
 ### app files
 
-- `bin` contains framework Bash scripts.
 - `conf` contains Apache configuration files.
 - `doc` contains framework Markdown documentation.
 - `html` contains HTML/PHP layout templates.
 - `json` contains site-wide JSON settings.
 - `lib` contains framework PHP libraries.
+- `log` contains log files.
 - `vendor` contains third-party PHP libraries.
 
 ### www files
@@ -102,6 +102,17 @@ The content of a typical `index.php` in PWF is:
 <?php
 define('DIR', __DIR__);
 require_once substr_replace(__FILE__, 'bootstrap.php', strpos(__FILE__, 'www'));
+PWF::load('html.php');
+```
+
+If you want to start a session, place `session_start()` above `PWF::load()`:
+
+```php
+<?php
+define('DIR', __DIR__);
+require_once substr_replace(__FILE__, 'bootstrap.php', strpos(__FILE__, 'www'));
+session_start();
+PWF::load('html.php');
 ```
 
 ## Create a new web page

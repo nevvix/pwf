@@ -9,6 +9,28 @@ class JSON {
     const JSON_ENCODE_DEPTH = 512;
 
     /**
+     * Merge JSON files and return an associative array or a stdClass object.
+     *
+     * @link http://php.net/manual/en/function.call-user-func-array.php
+     * @link http://php.net/manual/en/function.array-merge.php
+     * @param array $filenames
+     * @return array|object
+     */
+    static public function merge(...$filenames) {
+        $param_arr = [];
+        foreach ($filenames as $filename) {
+            if (file_exists($filename)) {
+                $kwargs = ['assoc'=>TRUE] + compact('filename');
+                $param_arr []= self::read($filename, $kwargs);
+            }
+        }
+        // $array = call_user_func_array("PWF::array_merge_recursive", $param_arr);
+        $array = call_user_func_array("array_merge_recursive", $param_arr);
+        $json = self::encode($array, ['options'=>self::JSON_ENCODE_OPTIONS]);
+        return self::decode($json, ['assoc'=>self::JSON_DECODE_ASSOC]);
+    }
+
+    /**
      * Read a JSON file and return an associative array or object.
      *
      * @param string $filename
@@ -33,27 +55,6 @@ class JSON {
         $kwargs += compact('filename');
         $json = self::encode($value, $kwargs);
         return (bool)file_put_contents($filename, $json);
-    }
-
-    /**
-     * Merge JSON files and return an associative array or a stdClass object.
-     *
-     * @link http://php.net/manual/en/function.call-user-func-array.php
-     * @link http://php.net/manual/en/function.array-merge.php
-     * @param array $filenames
-     * @return array|object
-     */
-    static public function merge(...$filenames) {
-        $param_arr = [];
-        foreach ($filenames as $filename) {
-            if (file_exists($filename)) {
-                $kwargs = ['assoc'=>TRUE] + compact('filename');
-                $param_arr []= self::read($filename, $kwargs);
-            }
-        }
-        $array = call_user_func_array("array_merge", $param_arr);
-        $json = self::encode($array, ['options'=>self::JSON_ENCODE_OPTIONS]);
-        return self::decode($json, ['assoc'=>self::JSON_DECODE_ASSOC]);
     }
 
     /**

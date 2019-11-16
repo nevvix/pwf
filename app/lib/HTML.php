@@ -28,6 +28,32 @@ class HTML {
         'selected',
         'typemustmatch',
     ];
+    const OPENGRAPH_KEY_PATTERN = '/^og\:/';
+
+    /**
+     * Create <meta> tags from json data.
+     *
+     * @param int $indent
+     * @return string
+     */
+    static public function meta_tags($indent=0) {
+        global $config;
+        if ($meta = @$config->meta) {
+            $meta = preg_grep_keys(self::OPENGRAPH_KEY_PATTERN, (array)$meta, PREG_GREP_INVERT);
+            $charset = self::charset_tag($indent);
+            $meta = array_remove($meta, ['charset', 'lang', 'title']);
+            $array = [];
+            foreach ($meta as $name => $content) {
+        // echo '<pre>', print_r($meta,1), '</pre>';
+        // echo '<h2>', @$meta->{$config->environment}, '</h2>';
+        // exit;
+                // $meta = @$meta->{$config->environment} ?: $meta;
+                $array []= compact('name', 'content');
+            }
+            return $charset.self::tags('%s<meta %s>', $array, $indent);
+            // return $charset.self::tags('%s<meta name="%s" content="%s">', $meta, $indent);
+        }
+    }
 
     /**
      * Create <meta> OpenGraph tags from json data.
@@ -35,64 +61,106 @@ class HTML {
      * @param int $indent
      * @return string
      */
-    static public function ogp_tags($indent=0) {
+    static public function opengraph_tags($indent=0) {
         global $config;
-        $html = [];
-        if ($ogps = preg_grep_keys('/^og\:/', (array)@$config->meta)) {
-            $indents = str_repeat(" ", (int)$indent);
-            foreach ($ogps as $key => $value) {
-                $html []= sprintf('%s<meta property="%s" content="%s">', $indents, $key, $value);
+        if ($meta = @$config->meta) {
+            $opengraph = preg_grep_keys(self::OPENGRAPH_KEY_PATTERN, (array)$meta);
+            $opengraph = @$opengraph->{@$config->environment} ?: $opengraph;
+            $array = [];
+            foreach ($meta as $property => $content) {
+                $array []= compact('property', 'content');
             }
+            return self::tags('%s<meta %s>', $meta, $indent);
+            // return self::tags('%s<meta property="%s" content="%s">', $opengraph, $indent);
         }
-        return join(PHP_EOL, $html).PHP_EOL;
     }
 
     /**
-     * Create <link> stylesheet tags from json data.
+     * Create <meta> charset tag from json data.
      *
      * @param int $indent
      * @return string
      */
-    static public function css_tags($indent=0) {
+    static public function charset_tag($indent=0) {
         global $config;
-        $html = [];
-        if ($stylesheets = @$config->meta->stylesheets) {
-            $indents = str_repeat(" ", (int)$indent);
-            foreach ($stylesheets as $array) {
-                $html []= sprintf('%s<link rel="stylesheet" %s>', $indents, self::join_attributes((array)$array));
-            }
+        if ($charset = @$config->meta->charset->{@$config->environment} ?: @$config->meta->charset) {
+            return self::tags('%s<meta %s>', compact('charset'), $indent);
+            // return sprintf('%s<meta charset="%s">', $indent, $charset);
         }
-        return join(PHP_EOL, $html).PHP_EOL;
     }
 
     /**
-     * Create <script> src tags from json data.
+     * Create <link> tags from json data.
+     *
+     * @param int $indent
+     * @return string
+     */
+    static public function link_tags($indent=0) {
+        global $config;
+        if ($link = @$config->link->{@$config->environment} ?: @$config->link) {
+            return self::tags('%s<link %s>', $link, $indent);
+        }
+    }
+
+    /**
+     * Create <script> tags from json data.
      *
      * @param string $section 'head' or 'body'
      * @param int $indent
      * @return string
      */
-    static public function js_tags($section, $indent=0) {
+    static public function script_tags($section, $indent=0) {
         global $config;
+        if ($script = @$config->script->{@$config->environment}->{$section} ?: @$config->script->{$section}) {
+            return self::tags('%s<script %s></script>', $script, $indent);
+        }
+    }
+
+    /**
+     * Get an array of HTML tags.
+     *
+     * @param string $tag
+     * @param mixed $object
+     * @param int $indent
+     * @return string
+     */
+    static public function tags($tag, $object, $indent=0) {
         $html = [];
-        if ($scripts = @$config->meta->{$section."_scripts"}) {
-            $indents = str_repeat(" ", (int)$indent);
-            foreach ($scripts as $array) {
-                $html []= sprintf('%s<script %s></script>', $indents, self::join_attributes((array)$array));
+        if (is_array($object)) {
+            foreach ($object as $obj) {
+                $html []= call_user_func(__METHOD__, $tag, $obj, $indent);
             }
+        }
+        else {
+            $html []= self::tag($tag, $object, $indent);
         }
         return join(PHP_EOL, $html).PHP_EOL;
     }
 
     /**
-     * Join array of HTML attributes.
+     * Make a HTML tag.
      *
-     * @param array $array
+     * @param string $tag
+     * @param mixed $object
+     * @param int $indent
      * @return string
      */
-    static public function join_attributes(array $array) {
+    static public function tag($tag, $object, $indent=0) {
+        $indent = str_repeat(" ", intval($indent));
+        return sprintf($tag, $indent, self::join_attributes($object));
+    }
+
+    /**
+     * Join array of HTML attributes.
+     *
+     * @param mixed $object
+     * @return string
+     */
+    static public function join_attributes($object) {
         $attributes = [];
-        foreach ($array as $key => $value) {
+        foreach ($object as $key => $value) {
+            // echo '<h2>', $key, '</h2>';
+            // echo '<h2>', $value, '</h2>';
             $attributes []= in_array($key, self::$html5_boolean_attributes) ? $key : sprintf('%s="%s"', $key, $value);
         }
         return join(" ", $attributes);

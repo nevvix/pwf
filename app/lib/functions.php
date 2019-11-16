@@ -48,6 +48,7 @@ function set_timezone($timezone) {
 /**
  * Get array entries that match pattern in their keys.
  *
+ * @link https://www.php.net/manual/en/function.preg-grep.php
  * @param string $pattern
  * @param array $array
  * @param int $flags
@@ -55,5 +56,27 @@ function set_timezone($timezone) {
  */
 function preg_grep_keys($pattern, array $array, $flags=0) {
     $grep = preg_grep((string)$pattern, array_keys($array), (int)$flags);
-    return array_intersect_key($array, array_flip($grep));
+    return array_select($array, $grep);
+}
+
+/**
+ * Select a subset of an associative array by providing the keys.
+ *
+ * @param array $array
+ * @param array $keys
+ * @return array
+ */
+function array_select(array $array, array $keys) {
+    return array_intersect_key($array, array_flip($keys));
+}
+
+/**
+ * Remove a subset of an associative array by providing the keys.
+ *
+ * @param array $array
+ * @param array $keys
+ * @return array
+ */
+function array_remove(array $array, array $keys) {
+    return array_diff_key($array, array_flip($keys));
 }

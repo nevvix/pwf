@@ -1,14 +1,18 @@
 {
-    "title": "Home",
-    "stylesheets": [
+    "meta": {
+        "title": "Home"
+    },
+    "link": [
         {
-            "href": "/assets/css/style.css",
+            "href": "style.css",
             "media": "all"
         }
     ],
-    "head_scripts": [
-        {
-            "src": "/head/section/from/local"
-        }
-    ]
+    "script": {
+        "head": [
+            {
+                "src": "/head/section/from/local"
+            }
+        ]
+    }
 }

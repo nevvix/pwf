@@ -15,7 +15,7 @@ class PWF {
     static public function load($filename, array $kwargs=[]) {
         global $config;
         $kwargs += [
-            'path' => APP.'/html', // Template path
+            'path' => path(APP, '/html'), // Template path
         ];
         if (!file_exists($_path = $filename)) {
             if (!file_exists($_path = path($kwargs['path'], $filename))) {
@@ -26,13 +26,43 @@ class PWF {
         include $_path;
     }
 
+    static public function array_merge_recursive() {
+        $array = [];
+        if (is_array($object)) {
+            foreach ($object as $obj) {
+                $array []= call_user_func(__METHOD__, $tag, $obj, $indent);
+            }
+        }
+        else {
+            $array []= array_merge($tag, $object, $indent);
+        }
+        return $array;
+    }
+
+    /**
+     * Merge $config with meta.json files.
+     */
+    static public function merge_meta() {
+        global $config;
+        $json = JSON::merge(APP.'/json/meta.json', DIR.'/.meta.json');
+        $config->meta = $json->meta;
+        $config->link = $json->link;
+        $config->script = $json->script;
+    }
+
+    /**
+     * Convert Markdown to HTML.
+     *
+     * @param string $filename
+     * @return string
+     */
     static public function markdown_to_html($filename) {
         if (file_exists($filename)) {
             $text = file_get_contents($filename);
             return \Michelf\MarkdownExtra::defaultTransform($text);
         }
         http_response_code(302);
-        $html = file_get_contents(APP.'/html/md_missing.html');
+        $html = file_get_contents(path(APP, '/html/md_missing.html'));
         $filename = explode(WWW, $filename)[1];
         return format($html, compact('filename'));
     }
