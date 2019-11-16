@@ -3,15 +3,23 @@
         "title": "Home"
     },
     "link": [
-        {
-            "href": "style.css",
-            "media": "all"
-        }
-    ],
-    "script": {
-        "head": [
             {
-                "src": "/head/section/from/local"
+                "rel": "stylesheet",
+                "href": "style.css",
+                "media": "all"
+            }
+        ],
+    "script": {
+        "head": {
+            "production": [
+                {
+                    "src": "/head/section/production/from/local"
+                }
+            ]
+        },
+        "body": [
+            {
+                "src": ".meta.json/from/local"
             }
         ]
     }

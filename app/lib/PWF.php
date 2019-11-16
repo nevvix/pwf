@@ -26,28 +26,65 @@ class PWF {
         include $_path;
     }
 
-    static public function array_merge_recursive() {
-        $array = [];
-        if (is_array($object)) {
-            foreach ($object as $obj) {
-                $array []= call_user_func(__METHOD__, $tag, $obj, $indent);
-            }
+    /**
+     * Merge meta data arrays.
+     *
+     * @param array $array
+     * @return array
+     */
+    static public function array_merge($array) {
+        global $config;
+
+        // Overwrite cascading 'meta' key=>values pairs
+        $meta = call_user_func_array('array_merge', array_column($array, 'meta'));
+
+        // Append cascading 'link' key=>values pairs
+        $link = call_user_func_array('array_merge_recursive', array_column($array, 'link'));
+
+        // Prepend global links to environment links
+        if ($environment = @$config->environment) {
+            $all_env = array_remove($link, ['development', 'production']);
+            $link[$environment] = array_merge($all_env, (array)@$head[$environment]);
+            $link = array_select($link, ['development', 'production']);
         }
         else {
-            $array []= array_merge($tag, $object, $indent);
+            $link = array_remove($link, ['development', 'production']);
         }
-        return $array;
+
+        // Append cascading 'script' key=>values pairs
+        $script = call_user_func_array('array_merge_recursive', array_column($array, 'script'));
+
+        // Prepend global scripts to environment scripts
+        if ($head = @$script['head']) {
+            if ($environment = @$config->environment) {
+                $all_env = array_remove($head, ['development', 'production']);
+                $head[$environment] = array_merge($all_env, (array)@$head[$environment]);
+                $script['head'] = array_select($head, ['development', 'production']);
+            }
+            else {
+                $script['head'] = array_remove($head, ['development', 'production']);
+            }
+        }
+        if ($body = @$script['body']) {
+            if ($environment = @$config->environment) {
+                $all_env = array_remove($body, ['development', 'production']);
+                $body[$environment] = array_merge($all_env, (array)@$body[$environment]);
+                $script['body'] = array_select($body, ['development', 'production']);
+            }
+            else {
+                $script['body'] = array_remove($body, ['development', 'production']);
+            }
+        }
+
+        return compact('meta', 'link', 'script');
     }
 
     /**
      * Merge $config with meta.json files.
      */
-    static public function merge_meta() {
-        global $config;
+    static public function merge_meta($config) {
         $json = JSON::merge(APP.'/json/meta.json', DIR.'/.meta.json');
-        $config->meta = $json->meta;
-        $config->link = $json->link;
-        $config->script = $json->script;
+        return (object)array_merge((array)$config, (array)$json);
     }
 
     /**

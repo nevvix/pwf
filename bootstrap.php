@@ -20,10 +20,7 @@ PWF::php_errors_log();
 PWF::htaccess();
 
 // Meta data
-// $config = PWF::merge_meta();
-// $meta = JSON::merge(APP.'/json/meta.json', DIR.'/.meta.json');
-$config->meta = JSON::merge(APP.'/json/meta.json', DIR.'/.meta.json');
-// $config = (object)array_merge((array)$config, (array)JSON::merge(APP.'/json/meta.json', DIR.'/.meta.json'));
+$config = PWF::merge_meta($config);
 set_timezone(@$config->timezone);
 
 echo '<pre>', print_r($config,1), '</pre>';
