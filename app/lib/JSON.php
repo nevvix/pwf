@@ -39,7 +39,7 @@ class JSON {
      * @return array|object
      */
     static public function read($filename, array $kwargs=[]) {
-        $json = @file_get_contents($filename);
+        $json = file_get_contents($filename);
         $kwargs += compact('filename');
         return self::decode($json, $kwargs);
     }
