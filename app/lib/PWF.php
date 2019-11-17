@@ -38,7 +38,6 @@ class PWF {
      * @return array
      */
     static public function array_merge($array) {
-        global $config;
 
         // Overwrite cascading 'meta' key=>values pairs
         $meta = call_user_func_array('array_merge', array_column($array, 'meta'));
@@ -47,41 +46,38 @@ class PWF {
         $link = call_user_func_array('array_merge_recursive', array_column($array, 'link'));
 
         // Prepend global links to environment links
-        if ($environment = @$config->environment) {
-            $all_env = array_remove($link, ['development', 'production']);
-            $link[$environment] = array_merge($all_env, (array)@$head[$environment]);
-            $link = array_select($link, ['development', 'production']);
-        }
-        else {
-            $link = array_remove($link, ['development', 'production']);
-        }
+        $link = self::prepend_env($link);
 
         // Append cascading 'script' key=>values pairs
         $script = call_user_func_array('array_merge_recursive', array_column($array, 'script'));
 
         // Prepend global scripts to environment scripts
         if ($head = @$script['head']) {
-            if ($environment = @$config->environment) {
-                $all_env = array_remove($head, ['development', 'production']);
-                $head[$environment] = array_merge($all_env, (array)@$head[$environment]);
-                $script['head'] = array_select($head, ['development', 'production']);
-            }
-            else {
-                $script['head'] = array_remove($head, ['development', 'production']);
-            }
+            $script['head'] = self::prepend_env($head);
         }
         if ($body = @$script['body']) {
-            if ($environment = @$config->environment) {
-                $all_env = array_remove($body, ['development', 'production']);
-                $body[$environment] = array_merge($all_env, (array)@$body[$environment]);
-                $script['body'] = array_select($body, ['development', 'production']);
-            }
-            else {
-                $script['body'] = array_remove($body, ['development', 'production']);
-            }
+            $script['body'] = self::prepend_env($body);
         }
 
         return compact('meta', 'link', 'script');
+    }
+
+    /**
+     * Prepend global data to environment data.
+     *
+     * @param array $array
+     * @return array
+     */
+    static private function prepend_env($array) {
+        global $config;
+        if ($environment = @$config->environment) {
+            $all_env = array_remove($array, ['development', 'production']);
+            $array[$environment] = array_merge($all_env, (array)@$array[$environment]);
+            return array_select($array, ['development', 'production']);
+        }
+        else {
+            return array_remove($array, ['development', 'production']);
+        }
     }
 
     /**
