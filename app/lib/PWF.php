@@ -85,17 +85,6 @@ class PWF {
     }
 
     /**
-     * Merge $config with meta.json files.
-     *
-     * @param stdClass $config
-     * @return stdClass
-     */
-    static public function merge_meta($config) {
-        $json = JSON::merge(APP.'/json/meta.json', DIR.'/.meta.json');
-        return (object)array_merge((array)$config, (array)$json);
-    }
-
-    /**
      * Convert Markdown to HTML.
      *
      * @param string $filename
@@ -110,6 +99,15 @@ class PWF {
         $html = file_get_contents(path(APP, '/html/md_missing.html'));
         $filename = explode(WWW, $filename)[1];
         return format($html, compact('filename'));
+    }
+
+    /**
+     * Merge $config with meta.json files.
+     */
+    static public function merge_meta() {
+        global $config;
+        $json = JSON::merge(APP.'/json/meta.json', DIR.'/.meta.json');
+        $config = (object)array_merge((array)$config, (array)$json);
     }
 
     /**

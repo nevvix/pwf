@@ -20,7 +20,7 @@ PWF::php_errors_log();
 PWF::htaccess();
 
 // Meta data
-$config = PWF::merge_meta($config);
+PWF::merge_meta();
 set_timezone(@$config->timezone);
 
 echo '<pre>', print_r($config,1), '</pre>';
