@@ -47,6 +47,22 @@ class HTML {
     }
 
     /**
+     * Create <meta> charset tag from json data.
+     *
+     * @param int $indent
+     * @return string
+     */
+    static public function meta_charset_tag($indent=0) {
+        global $config;
+        if ($charset = @$config->meta->charset->{@$config->environment} ?: @$config->meta->charset) {
+            if (empty($config->environment) && is_object($charset)) {
+                $charset = reset($charset);
+            }
+            return self::tag('%s<meta %s>', compact('charset'), $indent);
+        }
+    }
+
+    /**
      * Create <meta> tags from json data.
      *
      * @param int $indent
@@ -91,22 +107,6 @@ class HTML {
                 }
                 return join(PHP_EOL, $html);
             }
-        }
-    }
-
-    /**
-     * Create <meta> charset tag from json data.
-     *
-     * @param int $indent
-     * @return string
-     */
-    static public function meta_charset_tag($indent=0) {
-        global $config;
-        if ($charset = @$config->meta->charset->{@$config->environment} ?: @$config->meta->charset) {
-            if (empty($config->environment) && is_object($charset)) {
-                $charset = reset($charset);
-            }
-            return self::tag('%s<meta %s>', compact('charset'), $indent);
         }
     }
 
