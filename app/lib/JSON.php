@@ -26,8 +26,8 @@ class JSON {
                 $param_arr []= self::read($filename, $kwargs);
             }
         }
-        $array = PWF::array_merge($param_arr);
-        $json = self::encode($array, ['options'=>self::JSON_ENCODE_OPTIONS]);
+        $assoc = PWF::array_merge($param_arr);
+        $json = self::encode($assoc, ['options'=>self::JSON_ENCODE_OPTIONS]);
         return self::decode($json, ['assoc'=>self::JSON_DECODE_ASSOC]);
     }
 

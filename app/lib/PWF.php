@@ -34,22 +34,22 @@ class PWF {
     /**
      * Merge meta data arrays.
      *
-     * @param array $array
+     * @param array $assoc
      * @return array
      */
-    static public function array_merge($array) {
+    static public function array_merge($assoc) {
 
         // Overwrite cascading 'meta' key=>value pairs
-        $meta = call_user_func_array('array_merge', array_column($array, 'meta'));
+        $meta = call_user_func_array('array_merge', array_column($assoc, 'meta'));
 
         // Append cascading 'link' key=>value pairs
-        $link = call_user_func_array('array_merge_recursive', array_column($array, 'link'));
+        $link = call_user_func_array('array_merge_recursive', array_column($assoc, 'link'));
 
         // Prepend global links to environment links
         $link = self::prepend_env($link);
 
         // Append cascading 'script' key=>value pairs
-        $script = call_user_func_array('array_merge_recursive', array_column($array, 'script'));
+        $script = call_user_func_array('array_merge_recursive', array_column($assoc, 'script'));
 
         // Prepend global scripts to environment scripts
         if ($head = @$script['head']) {
@@ -65,19 +65,17 @@ class PWF {
     /**
      * Prepend global data to environment data.
      *
-     * @param array $array
+     * @param array $assoc
      * @return array
      */
-    static private function prepend_env($array) {
+    static private function prepend_env($assoc) {
         global $config;
+        $all_env = array_remove($assoc, ['development', 'production']);
         if ($environment = @$config->environment) {
-            $all_env = array_remove($array, ['development', 'production']);
-            $array[$environment] = array_merge($all_env, (array)@$array[$environment]);
-            return array_select($array, ['development', 'production']);
+            $assoc[$environment] = array_merge($all_env, (array)@$assoc[$environment]);
+            return array_select($assoc, ['development', 'production']);
         }
-        else {
-            return array_remove($array, ['development', 'production']);
-        }
+        return $all_env;
     }
 
     /**
