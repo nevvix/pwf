@@ -23,4 +23,8 @@ PWF::htaccess();
 PWF::merge_meta();
 set_timezone(@$config->timezone);
 
+// ini_set('xdebug.var_display_max_depth', '10');
+// ini_set('xdebug.var_display_max_children', '256');
+// ini_set('xdebug.var_display_max_data', '1024');
+// var_dump($config,1);
 echo '<pre>', print_r($config,1), '</pre>';
