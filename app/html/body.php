@@ -10,6 +10,6 @@
         </div>
     </div>
 
-<?= HTML::script_tags('body', 4); ?>
+<?= HTML::body_script_tags(4); ?>
 
 </body>
