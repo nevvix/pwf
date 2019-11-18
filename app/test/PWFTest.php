@@ -12,14 +12,17 @@ require_once APP.'/lib/PWF.php';
 class PWFTest extends PHPUnit\Framework\TestCase {
 
     public function test_array_merge() {
-        $GLOBALS['config'] = JSON::read(__DIR__.'/config.json', ['assoc'=>TRUE]);
-        $meta = JSON::read(__DIR__.'/meta.json', ['assoc'=>TRUE]);
-        $_meta = JSON::read(__DIR__.'/.meta.json', ['assoc'=>TRUE]);
-
-        $expected = JSON::read(__DIR__.'/expected.json', ['assoc'=>TRUE]);
-        $actual = PWF::array_merge(compact('meta', '_meta'));
-
+        $GLOBALS['config'] = ['environment'=>'development'];
+        $array = [
+            $this->json_decode('meta.json'),
+            $this->json_decode('.meta.json'),
+        ];
+        $expected = $this->json_decode('expected.json');
+        $actual = PWF::array_merge($array);
         $this->assertEquals($expected, $actual);
     }
 
+    private function json_decode($filename) {
+        return json_decode(file_get_contents(__DIR__.'/'.$filename), TRUE);
+    }
 }

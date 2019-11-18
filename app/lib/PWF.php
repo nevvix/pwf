@@ -39,16 +39,16 @@ class PWF {
      */
     static public function array_merge($array) {
 
-        // Overwrite cascading 'meta' key=>values pairs
+        // Overwrite cascading 'meta' key=>value pairs
         $meta = call_user_func_array('array_merge', array_column($array, 'meta'));
 
-        // Append cascading 'link' key=>values pairs
+        // Append cascading 'link' key=>value pairs
         $link = call_user_func_array('array_merge_recursive', array_column($array, 'link'));
 
         // Prepend global links to environment links
         $link = self::prepend_env($link);
 
-        // Append cascading 'script' key=>values pairs
+        // Append cascading 'script' key=>value pairs
         $script = call_user_func_array('array_merge_recursive', array_column($array, 'script'));
 
         // Prepend global scripts to environment scripts
