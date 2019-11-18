@@ -14,10 +14,10 @@ class PWFTest extends PHPUnit\Framework\TestCase {
     public function test_array_merge() {
         $GLOBALS['config'] = ['environment'=>'development'];
         $array = [
-            $this->json_decode('meta.json'),
-            $this->json_decode('.meta.json'),
+            $this->json_decode('dev/meta.json'),
+            $this->json_decode('dev/.meta.json'),
         ];
-        $expected = $this->json_decode('expected.json');
+        $expected = $this->json_decode('dev/expected.json');
         $actual = PWF::array_merge($array);
         $this->assertEquals($expected, $actual);
     }
