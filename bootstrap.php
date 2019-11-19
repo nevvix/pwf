@@ -11,7 +11,7 @@ require_once APP.'/lib/functions.php';
 require_once APP.'/lib/JSON.php';
 require_once APP.'/lib/PWF.php';
 require_once APP.'/lib/HTML.php';
-require_once ROOT.'/vendor/php-markdown/Michelf/MarkdownExtra.inc.php';
+require_once path(ROOT, $config->markdown);
 
 // PHP error log write permission
 PWF::php_errors_log();

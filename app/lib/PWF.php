@@ -100,7 +100,10 @@ class PWF {
      */
     static public function merge_meta() {
         global $config;
-        $json = JSON::merge(APP.'/json/meta.json', DIR.'/.meta.json');
+        $json = JSON::merge(
+            path(APP, '/json/meta.json'),
+            path(DIR, '.meta.json')
+        );
         $config = (object)array_merge((array)$config, (array)$json);
     }
 
