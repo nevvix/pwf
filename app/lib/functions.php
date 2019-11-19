@@ -21,7 +21,7 @@ function format($string, array $kwargs, $pattern='/\{\{(\w+)\}\}/') {
  *
  * Usage: path('./one/', '/two/', 'three/');
  * Result: "./one/two/three"
- * @param string $parts
+ * @param array $parts
  * @return string
  */
 function path(...$parts) {
@@ -51,7 +51,7 @@ function set_timezone($timezone) {
  * @link https://www.php.net/manual/en/function.preg-grep.php
  * @param string $pattern
  * @param array $assoc
- * @param int $flags
+ * @param int $flags 0 or PREG_GREP_INVERT
  * @return array
  */
 function preg_grep_keys($pattern, array $assoc, $flags=0) {
