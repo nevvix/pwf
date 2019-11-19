@@ -12,9 +12,16 @@ require_once APP.'/lib/PWF.php';
 class PWFArrayMergeTest extends PHPUnit\Framework\TestCase {
 
     public function test_01() {
-        $GLOBALS['config'] = ['environment'=>'development'];
+        $GLOBALS['config'] = (object)['environment'=>'development'];
         $expected = $this->expected_file('01');
         $actual = PWF::array_merge($this->actual_files('01'));
+        $this->assertEquals($expected, $actual);
+    }
+
+    public function test_02() {
+        $GLOBALS['config'] = (object)['environment'=>'development'];
+        $expected = $this->expected_file('02');
+        $actual = PWF::array_merge($this->actual_files('02'));
         $this->assertEquals($expected, $actual);
     }
 
@@ -30,7 +37,8 @@ class PWFArrayMergeTest extends PHPUnit\Framework\TestCase {
     }
 
     private function json_decode($filename) {
-        $filename = sprintf('%s/%s/%s', __DIR__, $GLOBALS['config']['environment'], $filename);
+        global $config;
+        $filename = sprintf('%s/%s/%s', __DIR__, $config->environment, $filename);
         return json_decode(file_get_contents($filename), TRUE);
     }
 }

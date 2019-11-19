@@ -1,6 +1,5 @@
 {
-  "meta":
-  {
+  "meta": {
     "title": "Home"
   },
   "link": [
@@ -10,15 +9,16 @@
       "media": "all"
     }
   ],
-  "script":
-  {
-    "head":
-    {
+  "script": {
+    "head": {
       "production": [
         {
           "src": "/head/section/production/from/local"
         }
-      ]
+      ],
+      "0": {
+        "src": "/head/section/GLOBAL/from/local"
+      }
     },
     "body": [
       {

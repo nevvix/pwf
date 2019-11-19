@@ -51,6 +51,9 @@
       "development": [
         {
           "src": "script/head/global"
+        },
+        {
+          "src": "/head/section/GLOBAL/from/local"
         }
       ]
     },
