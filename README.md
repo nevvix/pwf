@@ -47,6 +47,17 @@ You see the default PWF page.
 
 Based on Bootstrap by default, modify Bootstrap HTML markup in `app/html/body`.
 
+### Modify your meta data
+
+Modify:
+
+- `app/json/config.json`
+- `app/json/meta.json`
+- `.meta.json`
+
+Validate and prettify JSON:
+
+<https://codebeautify.org/jsonvalidator>
 
 ### Refresh
 
