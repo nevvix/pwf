@@ -1,6 +1,5 @@
 <?php
 require_once __DIR__.'/functions.php';
-require_once __DIR__.'/PWF.php';
 
 class JSON {
 
@@ -15,10 +14,11 @@ class JSON {
      *
      * @link http://php.net/manual/en/function.call-user-func-array.php
      * @link http://php.net/manual/en/function.array-merge.php
+     * @param string $callback
      * @param array $filenames
      * @return array|object
      */
-    static public function merge(...$filenames) {
+    static public function merge($callback, ...$filenames) {
         $param_arr = [];
         foreach ($filenames as $filename) {
             if (file_exists($filename)) {
@@ -26,7 +26,7 @@ class JSON {
                 $param_arr []= self::read($filename, $kwargs);
             }
         }
-        $assoc = PWF::array_merge($param_arr);
+        $assoc = call_user_func($callback, $param_arr);
         $json = self::encode($assoc, ['options'=>self::JSON_ENCODE_OPTIONS]);
         return self::decode($json, ['assoc'=>self::JSON_DECODE_ASSOC]);
     }
