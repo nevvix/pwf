@@ -13,7 +13,7 @@ cd ~/Web
 git clone https://github.com/nevvix/pwf.git
 cd ~/Web/pwf
 touch README.md
-mkdir -p {app/{bin,doc,html,json,L10n,lib,vendor},www/assets/{css,img,js}}
+mkdir -p {app/{conf,doc,html,json,lib,log.test},www/assets/{css,img,js},vendor}
 tree -a -I ".git" --dirsfirst > app/doc/tree.txt
 ```
 
@@ -21,8 +21,7 @@ tree -a -I ".git" --dirsfirst > app/doc/tree.txt
 
 ```bash
 cd ~/Web/pwf
-git clone --depth=1 --branch=1.8.0 https://github.com/michelf/php-markdown.git app/vendor/php-markdown
-rm -rf app/vendor/php-markdown/.git*
+git clone -q -b 1.8.0 --depth=1 https://github.com/michelf/php-markdown.git vendor/php-markdown
 ```
 
 ## Download .htaccess

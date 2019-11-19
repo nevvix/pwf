@@ -24,6 +24,33 @@ HTML and Markdown web pages in regular directory structure powered by PHP and Ap
 - Cascading lookup
 - Global cascading JSON settings
 
+## Create a new website
+
+### Download PWF and Markdown
+
+Replace `~/Code/example.com` with your website project name.
+
+```bash
+cd ~/Code
+git clone https://github.com/nevvix/pwf.git example.com
+cd ~/Code/example.com/vendor
+git clone -q -b 1.8.0 --depth=1 https://github.com/michelf/php-markdown.git
+```
+
+### Try in browser
+
+You see the default PWF page.
+
+<http://example.com.localhost:8000>
+
+### Modify your templates
+
+Based on Bootstrap by default, modify Bootstrap HTML markup in `app/html/body`.
+
+
+### Refresh
+
+<http://example.com.localhost:8000>
 
 ## File and folder structure
 

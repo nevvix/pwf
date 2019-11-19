@@ -1,8 +1,8 @@
 .DS_Store
 Thumbs.db
 .vagrant
-composer.phar
-vendor/
 .env
+vendor/*
+composer.phar
 phpunit*.phar
 .phpunit.result.cache
