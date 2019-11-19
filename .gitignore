@@ -2,7 +2,7 @@
 Thumbs.db
 .vagrant
 .env
-vendor/*
+/vendor/*!.keep
 composer.phar
 phpunit*.phar
 .phpunit.result.cache
