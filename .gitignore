@@ -2,8 +2,7 @@
 Thumbs.db
 .vagrant
 composer.phar
-/vendor/
-!/vendor/php-markdown/
+/vendor/*
 .env
 phpunit*.phar
 .phpunit.result.cache
