@@ -41,7 +41,7 @@ class HTML {
         $html = array_filter([
             self::meta_charset_tag($indent),
             self::meta_name_tags($indent),
-            self::opengraph_tags($indent),
+            self::meta_property_tags($indent),
         ]);
         return join(PHP_EOL, $html).PHP_EOL;
     }
@@ -69,7 +69,6 @@ class HTML {
      * @return string
      */
     static public function meta_name_tags($indent=0) {
-        global $config;
         return self::create_meta_tags('name', PREG_GREP_INVERT, $indent);
     }
 
@@ -79,8 +78,7 @@ class HTML {
      * @param int $indent
      * @return string
      */
-    static public function opengraph_tags($indent=0) {
-        global $config;
+    static public function meta_property_tags($indent=0) {
         return self::create_meta_tags('property', 0, $indent);
     }
 
@@ -167,12 +165,12 @@ class HTML {
      */
     static private function create_link_script_tags($tag, $object, $indent=0) {
         global $config;
-            $object = @$object->{@$config->environment} ?: $object;
-            $html = [];
-            foreach ($object as $obj) {
-                $html []= self::tag($tag, $obj, $indent);
-            }
-            return join(PHP_EOL, $html).PHP_EOL;
+        $object = @$object->{@$config->environment} ?: $object;
+        $html = [];
+        foreach ($object as $obj) {
+            $html []= self::tag($tag, $obj, $indent);
+        }
+        return join(PHP_EOL, $html).PHP_EOL;
     }
 
     /**
