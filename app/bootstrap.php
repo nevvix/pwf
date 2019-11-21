@@ -1,5 +1,5 @@
 <?php
-define('ROOT', __DIR__);
+define('ROOT', dirname(__DIR__));
 define('APP', ROOT.'/app');
 define('WWW', ROOT.'/www');
 
