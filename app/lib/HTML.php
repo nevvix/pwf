@@ -39,11 +39,29 @@ class HTML {
      */
     static public function meta_tags($indent=0) {
         $html = array_filter([
+            self::title_tag($indent),
             self::meta_charset_tag($indent),
             self::meta_name_tags($indent),
             self::meta_property_tags($indent),
         ]);
         return join(PHP_EOL, $html).PHP_EOL;
+    }
+
+    /**
+     * Create <title> tag from json data.
+     *
+     * @param int $indent
+     * @return string
+     */
+    static public function title_tag($indent=0) {
+        global $config;
+        if ($title = @$config->meta->title->{@$config->environment} ?: @$config->meta->title) {
+            if (empty($config->environment) && is_object($title)) {
+                $title = reset($title);
+            }
+            $indent = str_repeat(" ", intval($indent));
+            return sprintf('%s<title>%s</title>', $indent, $title);
+        }
     }
 
     /**
