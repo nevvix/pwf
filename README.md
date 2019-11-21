@@ -110,7 +110,7 @@ At the project root, there are 3 directories:
 - `vendor` contains third-party PHP libraries.
 - `www` contains public files served by Apache.
 
-### app files
+### app files and folders
 
 - `conf` contains Apache configuration files.
 - `doc` contains framework Markdown documentation.
@@ -119,6 +119,11 @@ At the project root, there are 3 directories:
 - `lib` contains framework PHP libraries.
 - `log` contains log files.
 - `test` contains unit tests.
+- `bootstrap.php` contains the code to load libraries and site settings.
+
+### vendor folder
+
+Contains third-party libraries that you can `git clone` or use [Composer](https://getcomposer.org).
 
 ### www files
 
@@ -143,7 +148,7 @@ The content of a typical `index.php` in PWF is:
 ```php
 <?php
 define('DIR', __DIR__);
-require_once substr_replace(__FILE__, 'bootstrap.php', strpos(__FILE__, 'www'));
+require_once substr_replace(__FILE__, 'app/bootstrap.php', strpos(__FILE__, 'www'));
 PWF::load('html.php');
 ```
 
@@ -152,7 +157,7 @@ If you want to start a session, place `session_start()` above `PWF::load()`:
 ```php
 <?php
 define('DIR', __DIR__);
-require_once substr_replace(__FILE__, 'bootstrap.php', strpos(__FILE__, 'www'));
+require_once substr_replace(__FILE__, 'app/bootstrap.php', strpos(__FILE__, 'www'));
 session_start();
 PWF::load('html.php');
 ```
