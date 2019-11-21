@@ -1,4 +1,4 @@
-# Nevvix PHP Web Framework (PWF)
+# Nevvix PHP Website Framework (PWF)
 
 HTML and Markdown web pages in regular directory structure powered by PHP and Apache.
 
@@ -75,14 +75,14 @@ tree -a --dirsfirst pwf
 
 ### bootstrap.php
 
-`bootstrap.php` is the bootstrap file that:
+`app/bootstrap.php` is the bootstrap file that:
 
 - defines site-wide constants,
 - loads framework libraries,
-- generates the global objects `$config` and `$L10n`,
+- generates the global object `$config`,
 - loads global and local JSON settings.
 
-Two global objects are created:
+One global object is created:
 
 - `$config` object (same as `$GLOBALS['config']`) contains the site-wide configuration settings.
 
@@ -104,9 +104,10 @@ You can edit this file.
 
 ### Folders
 
-At the project root, there are two directories:
+At the project root, there are 3 directories:
 
-- `app` contains framework files that are not served by Apache.
+- `app` contains framework files.
+- `vendor` contains third-party PHP libraries.
 - `www` contains public files served by Apache.
 
 ### app files
@@ -118,7 +119,6 @@ At the project root, there are two directories:
 - `lib` contains framework PHP libraries.
 - `log` contains log files.
 - `test` contains unit tests.
-- `vendor` contains third-party PHP libraries.
 
 ### www files
 
@@ -197,7 +197,7 @@ from the default template parts and the local overriding parts of a page layout.
 
 PWF starts with the page-specific `index.php` bootstrap.
 
-- `index.php` loads `bootstrap.php` from the project root.
+- `index.php` loads `bootstrap.php` from the `app` directory.
 - `bootstrap.php` loads `html.php`.
 - `html.php` loads `head.php` and `body.php`.
 - `head.php` loads meta tags, CSS tags and JavaScript tags.
@@ -256,7 +256,7 @@ plus `meta`, `link` and `script` key=>value pairs appended at the root level.
 
 In the `<head>` section of an HTML page, these tags will be auto-generated:
 
-- The `meta` data is for `<meta>` tags.
+- The `meta` data is for `<meta>` and `<title>` tags.
 - The `link` data is for `<link>` tags.
 - The `script` data is for `<script>` tags.
 
@@ -279,11 +279,11 @@ object(stdClass)[19]
           public 'development' => string 'noindex,nofollow' (length=16)
       public 'viewport' => string 'width=device-width,initial-scale=1,shrink-to-fit=no' (length=51)
       public 'rights' => string 'Copyright (c) 2019 Nevvix Technology Inc.' (length=41)
-      public 'sitename' => string 'Nevvix PHP Web Framework' (length=24)
+      public 'sitename' => string 'Nevvix PHP Website Framework' (length=24)
       public 'title' => string 'Home' (length=4)
       public 'og:url' => string 'https://pwf.nevvix.com' (length=22)
       public 'og:image' => string 'https://pwf.nevvix.com/screenshot.png' (length=37)
-      public 'og:title' => string 'Nevvix PHP Web Framework' (length=24)
+      public 'og:title' => string 'Nevvix PHP Website Framework' (length=24)
       public 'og:type' => string 'website' (length=7)
       public 'og:site_name' => string 'Nevvix.com' (length=10)
       public 'og:description' => string 'HTML and Markdown web pages in regular directory structure powered by PHP and Apache.' (length=85)
@@ -365,11 +365,11 @@ stdClass Object (
         )
         [viewport] => width=device-width,initial-scale=1,shrink-to-fit=no
         [rights] => Copyright (c) 2019 Nevvix Technology Inc.
-        [sitename] => Nevvix PHP Web Framework
+        [sitename] => Nevvix PHP Website Framework
         [title] => Home
         [og:url] => https://pwf.nevvix.com
         [og:image] => https://pwf.nevvix.com/screenshot.png
-        [og:title] => Nevvix PHP Web Framework
+        [og:title] => Nevvix PHP Website Framework
         [og:type] => website
         [og:site_name] => Nevvix.com
         [og:description] => HTML and Markdown web pages in regular directory structure powered by PHP and Apache.
