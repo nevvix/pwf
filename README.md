@@ -279,7 +279,7 @@ stdClass Object (
     [htaccess] => app/conf/development.http.htaccess
     [encoding] => utf-8
     [timezone] => America/Los_Angeles
-    [php_error_log] => app/log/php_errors.log
+    [php_error_log] => app/log/php_error.log
     [meta] => stdClass Object (
         [lang] => en
         [charset] => utf-8
