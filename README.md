@@ -1,11 +1,5 @@
 # Nevvix PHP Website Framework (PWF)
 
----
-
-> Change Markdown to Parsedown!!!
-
----
-
 HTML and Markdown web pages in regular directory structure powered by PHP and Apache.
 
 ## Features
@@ -21,7 +15,8 @@ HTML and Markdown web pages in regular directory structure powered by PHP and Ap
     - [Bootstrap](https://getbootstrap.com) from CDN
     - [Font Awesome 4.7.0](https://fontawesome.com/v4.7.0) from CDN
     - [Google Web Fonts](https://fonts.google.com) from CDN
-    - [PHP Markdown Extra](https://github.com/michelf/php-markdown)
+    - [PHP Parsedown](https://github.com/erusev/parsedown)
+    - [PHP Parsedown Extra](https://github.com/erusev/parsedown-extra)
 - Localization
 - Themes
 - MarkdownExtra 1.8.0
@@ -40,7 +35,8 @@ Replace `~/Code/example.com` with your website project name.
 cd ~/Code
 git clone https://github.com/nevvix/pwf.git example.com
 cd ~/Code/example.com/vendor
-git clone -q -b 1.8.0 --depth=1 https://github.com/michelf/php-markdown.git
+git clone --depth=1 git@github.com:erusev/parsedown.git
+git clone --depth=1 git@github.com:erusev/parsedown-extra.git
 ```
 
 ### Try in browser

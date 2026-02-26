@@ -2,18 +2,18 @@
 define('ROOT', dirname(__DIR__));
 define('APP', ROOT.'/app');
 define('WWW', ROOT.'/www');
+define('VENDOR', ROOT.'/vendor');
 
 // Libraries
 require_once APP.'/lib/functions.php';
 require_once APP.'/lib/JSON.php';
 require_once APP.'/lib/PWF.php';
 require_once APP.'/lib/HTML.php';
+require_once VENDOR.'/parsedown/Parsedown.php';
+require_once VENDOR.'/parsedown-extra/ParsedownExtra.php';
 
 // Global $config object
-$config = JSON::read(path(APP, '/json/config.json'));
-
-// Markdown Extra
-require_once path(ROOT, $config->markdown);
+$config = JSON::read(APP.'/json/config.json');
 
 // PHP error log write permission
 PWF::php_error_log();

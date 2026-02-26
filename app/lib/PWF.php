@@ -85,12 +85,15 @@ class PWF {
      * @return string
      */
     static public function markdown_to_html($filename) {
-        if (file_exists($filename)) {
-            $text = file_get_contents($filename);
-            return \Michelf\MarkdownExtra::defaultTransform($text);
+        static $pe;
+        if (!($pe instanceof ParsedownExtra)) {
+            $pe = new ParsedownExtra();
         }
-        http_response_code(302);
-        $html = file_get_contents(path(APP, '/html/md_missing.html'));
+        if (file_exists($filename)) {
+            return $pe->text(file_get_contents($filename));
+        }
+        http_response_code(302); // Found
+        $html = file_get_contents(APP.'/html/md_missing.html');
         $filename = explode(WWW, $filename)[1];
         return format($html, compact('filename'));
     }
