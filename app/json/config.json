@@ -4,5 +4,5 @@
   "markdown": "vendor/php-markdown/Michelf/MarkdownExtra.inc.php",
   "encoding": "utf-8",
   "timezone": "America/Los_Angeles",
-  "php_errors_log": "app/log/php_errors.log"
+  "php_error_log": "app/log/php_error.log"
 }

@@ -16,7 +16,7 @@ $config = JSON::read(path(APP, '/json/config.json'));
 require_once path(ROOT, $config->markdown);
 
 // PHP error log write permission
-PWF::php_errors_log();
+PWF::php_error_log();
 
 // Select .htaccess
 PWF::htaccess();

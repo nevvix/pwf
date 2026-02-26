@@ -125,10 +125,10 @@ class PWF {
     /**
      * Set PHP error log write permission.
      */
-    static public function php_errors_log() {
+    static public function php_error_log() {
         global $config;
-        if ($php_errors_log = @$config->php_errors_log) {
-            chmod(path(ROOT, $php_errors_log), 0664);
+        if ($php_error_log = @$config->php_error_log) {
+            chmod(path(ROOT, $php_error_log), 0664);
         }
     }
 }

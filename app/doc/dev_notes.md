@@ -13,7 +13,7 @@ cd ~/Web
 git clone https://github.com/nevvix/pwf.git
 cd ~/Web/pwf
 touch README.md
-mkdir -p {app/{conf,doc,html,json,lib,log.test},www/assets/{css,img,js},vendor}
+mkdir -p {app/{conf,doc,html,json,lib,log,test},www/assets/{css,img,js},vendor}
 tree -a -I ".git" --dirsfirst > app/doc/tree.txt
 ```
 
@@ -23,6 +23,10 @@ tree -a -I ".git" --dirsfirst > app/doc/tree.txt
 cd ~/Web/pwf
 git clone -q -b 1.8.0 --depth=1 https://github.com/michelf/php-markdown.git vendor/php-markdown
 ```
+
+## Download highlight.js
+
+<https://highlightjs.org/download>
 
 ## Download .htaccess
 
